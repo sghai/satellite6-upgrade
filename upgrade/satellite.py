@@ -139,6 +139,9 @@ def satellite6_upgrade():
         str(postyum_time-preyum_time)))
     # Running Upgrade
     preup_time = datetime.now().replace(microsecond=0)
+    logger.info('applying patch for performance issue')
+    run('wget -q -P /var/tmp http://paprika.lab.eng.rdu2.redhat.com/pub/foreman_routes.patch')
+    run('cd /usr/share/foreman && patch -p1 < /var/tmp/foreman_routes.patch')
     if to_version == '6.1':
         run('katello-installer --upgrade')
     else:
